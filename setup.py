@@ -8,6 +8,8 @@ __version__ = re.search(
 # The beautiful part is, I don't even need to check exceptions here.
 # If something messes up, let the build process fail noisy, BEFORE my release!
 
+print(__version__)
+
 setup(
      # Needed to silence warnings (and to be a worthwhile package)
     name='personal_util',
