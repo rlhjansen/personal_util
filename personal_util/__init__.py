@@ -1,2 +1,1 @@
-from .my_stuff import   make_requirements, 
-                        lprint
+from .my_stuff import  make_requirements, lprint
