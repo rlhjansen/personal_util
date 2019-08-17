@@ -1,4 +1,4 @@
-from setuptools import setup
+from distutils.core import setup
 
 # The beautiful part is, I don't even need to check exceptions here.
 # If something messes up, let the build process fail noisy, BEFORE my release!
