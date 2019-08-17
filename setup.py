@@ -7,7 +7,7 @@ setup(
     author='Reitze Jansen',
     author_email='rlh.jansen@outlook.com',
     # Needed to actually package something
-    packages=['personal_utils'],
+    packages=['personal_util'],
     # Needed for dependencies
     install_requires=[],
     # *strongly* suggested for sharing
