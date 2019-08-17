@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
      # Needed to silence warnings (and to be a worthwhile package)
-    name='Personal_Utils',
+    name='personal_util',
     url='https://github.com/rlhjansen/personal_util',
     author='Reitze Jansen',
     author_email='rlh.jansen@outlook.com',
