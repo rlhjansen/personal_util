@@ -15,7 +15,7 @@ setup(
     install_requires=[],
     # The license can be anything you like
     license='MIT',
-    version=0.1,
+    version='0.1',
     description="""small library for functions I use over and over again.
     Will probably split into different modules in the future""",
     # We will also need a readme eventually (there will be a warning)
