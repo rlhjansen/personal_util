@@ -3,7 +3,7 @@ import re, io
 
 __version__ = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',  # It excludes inline comment too
-    io.open('main_package/__init__.py', encoding='utf_8_sig').read()
+    io.open('personal_util/__init__.py', encoding='utf_8_sig').read()
     ).group(1)
 # The beautiful part is, I don't even need to check exceptions here.
 # If something messes up, let the build process fail noisy, BEFORE my release!
