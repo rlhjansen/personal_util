@@ -1,8 +1,5 @@
 import os
 import importlib
-import numpy as np
-import matplotlib as mpl
-import cv2
 
 
 SPECIAL_CASES = {"cv2":"opencv-python"}
