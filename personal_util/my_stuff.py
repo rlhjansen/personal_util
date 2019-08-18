@@ -1,8 +1,9 @@
 import os
 import importlib
-
+from copy import deepcopy
 
 SPECIAL_CASES = {"cv2":"opencv-python"}
+GITHUB_CASES = set(["personal_util"])
 
 def index_alwaysret(iterable, required_value):
     try:
@@ -18,28 +19,36 @@ def relevant_import_line(line):
         return True
     return False
 
-def scan_for_imports(filename):
-    exception_libs = ["os", "sys", "math", "importlib", "my_stuff"]
-    manual_install = []
-    to_reqs = []
+def scan_for_imports(filename, known_github_sourced=[]):
     with open(filename, 'r') as f:
         lines = [line[:-1] for line in f.readlines() if relevant_import_line(line)]
         libs = [line.split(" ")[1] for line in lines]
         libs = [lib[:index_alwaysret(lib, ".")] for lib in libs]
         libs = [lib for lib in libs if lib not in exception_libs]
-        for lib in libs:
-            libname = SPECIAL_CASES.get(lib, lib)
-            exec("import " + lib)
+    return libs
+
+def categorize_imports(importlist, known_github_sourced):
+    exception_libs = ["os", "sys", "math", "importlib", "my_stuff"]
+    manual_install = []
+    github_install = []
+    to_reqs = []
+
+    for lib in importlist:
+        if lib in known_github_sourced:
             module = importlib.import_module(lib, package=None)
+            github_install.append(lib +","+module.url)
+            continue
+        libname = SPECIAL_CASES.get(lib, lib)
+        module = importlib.import_module(lib, package=None)
+        try:
+            to_reqs.append(libname + "==" + module.__version__)
+        except AttributeError:
             try:
-                to_reqs.append(libname + "==" + module.__version__)
+                print(lib, module.__ver__)
+                to_reqs.append(libname + "==" + module.__ver__)
             except AttributeError:
-                try:
-                    print(lib, module.__ver__)
-                    to_reqs.append(libname + "==" + module.__ver__)
-                except AttributeError:
-                    manual_install.append(libname)
-    return manual_install, to_reqs
+                manual_install.append(libname)
+    return manual_install, github_install, to_reqs
 
 
 def make_requirements(exclude=[], use_gitignore=True, reqfile="requirements.txt", manual_reqfile="manual_requirements.txt"):
@@ -65,22 +74,23 @@ def make_requirements(exclude=[], use_gitignore=True, reqfile="requirements.txt"
     lprint(exclude)
     print("#"*10)
     exclude = set(exclude)
-    pip_list = []
-    manual_list = []
+    libs = []
     for root, dirs, files in os.walk("."):
         dirs[:] = [d for d in dirs if d not in exclude]
 
         path = root.split(os.sep)
         for file in files:
             if file[-3:] == ".py":
-                manual_additions, pip_additions = scan_for_imports(file)
-                manual_list.extend(manual_additions)
-                pip_list.extend(pip_additions)
+                libs.extend(scan_for_imports(file))
+    manual_install, github_install, to_reqs = categorize_imports(list(set(libs)))
+
     lprint(pip_list)
     with open(reqfile, "w+") as rqf:
         rqf.write("\n".join(sorted(list(set(pip_list)))))
     with open(manual_reqfile, "w+") as mrqf:
         mrqf.write("\n".join(manual_list))
+    with open(gh_reqfile, "w+") as ghrqf:
+        ghrqf.write("\n".join(github_install))
 
 
 def lprint(iterable, header=None):
