@@ -180,7 +180,7 @@ def process_install(file, reqtype=None):
             line = line[:-1] + ","
             linedata = line.split(",")
             package_info, url = linedata[0], linedata[1]
-            module_name, required_module_version = package_info.split("=="")
+            module_name, required_module_version = package_info.split("==")
             if required_module_version == installed_version:
                 continue
             else:
