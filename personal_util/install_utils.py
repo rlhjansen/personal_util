@@ -4,8 +4,8 @@ import subprocess
 import sys
 from copy import deepcopy
 
-from debugging_utils import lprint, spaced_lprint
-from grabbing_utils import index_alt_return
+from .debugging_utils import lprint, spaced_lprint
+from .grabbing_utils import index_alt_return
 
 def get_version(module):
     """ wrapper to extract version using different possible version handlers

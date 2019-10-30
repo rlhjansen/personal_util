@@ -15,7 +15,7 @@ def spaced_lprint(iterable):
 
     for i, elem in enumerate(list):
         linestr = ""
-        for j, subelem in enuemrate(elem)
+        for j, subelem in enumerate(elem):
             spacelength = lengths[j]-found_lengths[i][j]
             linestr += subelem + " "*spacelength
         print(linestr)
