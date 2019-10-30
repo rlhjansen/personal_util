@@ -6,4 +6,4 @@ from .debugging_utils import  spaced_lprint
 
 from .grabbing_utils import index_alt_return
 
-__version__='0.1'
+__version__='0.11'
